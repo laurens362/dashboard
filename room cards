@@ -1,0 +1,166 @@
+square: false
+columns: 2
+type: grid
+cards:
+  - type: custom:stack-in-card
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Woonkamer
+        secondary: >-
+          {{ states('sensor.temperature_woonkamer_temperature') | round (1) }}
+          °C
+        icon: mdi:sofa
+        entity: none
+        tap_action:
+          action: navigate
+          navigation_path: woonkamer
+        hold_action:
+          action: none
+        icon_color: '#66CDAA'
+        fill_container: true
+        layout: horizontal
+        multiline_secondary: false
+        card_mod:
+          style: |
+            :host {
+              background: url('/local/backyard.png') center;
+              background-size: cover;
+              background-blend-mode: overlay;
+              background-color: rgba(var(--rgb-card-background-color), 0.8);
+              --mush-icon-size: 66px;
+              height: 56px;
+              margin-left: -18px !important;
+            }
+      - type: custom:mushroom-chips-card
+        chips:
+          - type: conditional
+            conditions:
+              - entity: media_player.lg_tv
+                state: 'off'
+            chip:
+              type: template
+              entity: media_player.lg_tv
+              icon_color: grey
+              icon: mdi:television-off
+              tap_action:
+                action: more-info
+              hold_action:
+                action: none
+          - type: conditional
+            conditions:
+              - entity: media_player.lg_tv
+                state: 'on'
+            chip:
+              type: template
+              entity: media_player.lg_tv
+              icon_color: blue
+              icon: mdi:television
+              tap_action:
+                action: more-info
+              hold_action:
+                action: none
+          - type: conditional
+            conditions:
+              - entity: light.beneden
+                state: 'off'
+            chip:
+              type: template
+              entity: light.beneden
+              icon_color: grey
+              icon: mdi:lightbulb-off
+              tap_action:
+                action: toggle
+              hold_action:
+                action: fire-dom-event
+                browser_mod:
+                  command: popup
+                  title: Lampen
+                  card:
+                    type: entities
+                    entities:
+                      - entity: light.woonkamer
+                        type: custom:mushroom-light-card
+                        show_brightness_control: true
+                        layout: horizontal
+                      - entity: light.eettafel
+                        type: custom:mushroom-light-card
+                        show_brightness_control: true
+                        layout: horizontal
+                      - entity: light.tv
+                        type: custom:mushroom-light-card
+                        show_brightness_control: true
+                        layout: horizontal
+          - type: conditional
+            conditions:
+              - entity: light.beneden
+                state: 'on'
+            chip:
+              type: template
+              entity: light.beneden
+              icon_color: orange
+              icon: mdi:lightbulb-on
+              tap_action:
+                action: toggle
+              hold_action:
+                action: fire-dom-event
+                browser_mod:
+                  command: popup
+                  title: Lampen
+                  card:
+                    type: entities
+                    entities:
+                      - entity: light.woonkamer
+                        type: custom:mushroom-light-card
+                        show_brightness_control: true
+                        layout: horizontal
+                      - entity: light.eettafel
+                        type: custom:mushroom-light-card
+                        show_brightness_control: true
+                        layout: horizontal
+                      - entity: light.tv
+                        type: custom:mushroom-light-card
+                        show_brightness_control: true
+                        layout: horizontal
+        alignment: end
+        card_mod:
+          style: |
+            ha-card {
+              --chip-box-shadow: none;
+              --chip-background: none;
+              --chip-spacing: 0;
+            } 
+    card_mod:
+      style: |
+        ha-card {
+          height: 102px;
+          {% if is_state('group.outside_lights', 'on') %}
+              box-shadow: 0 0 20px rgba(0, 150, 136, 0.6);
+          {% endif %}
+        }
+  - type: custom:stack-in-card
+    cards:
+      - type: custom:mushroom-template-card
+        primary: Gang
+        secondary: '{{ states(''sensor.motion_hue_gang_temperature'') | round (1) }} °C'
+        icon: mdi:door
+        entity: none
+        tap_action:
+          action: navigate
+          navigation_path: gang
+        hold_action:
+          action: none
+        icon_color: '#66CDAA'
+        fill_container: true
+        layout: horizontal
+        multiline_secondary: false
+        card_mod:
+          style: |
+            :host {
+              background: url('/local/backyard.png') center;
+              background-size: cover;
+              background-blend-mode: overlay;
+              background-color: rgba(var(--rgb-card-background-color), 0.8);
+              --mush-icon-size: 66px;
+              height: 56px;
+              margin-left: -18px !important;
+            }
